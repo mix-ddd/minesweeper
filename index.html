@@ -16,14 +16,23 @@
 
     <div class="toolbar">
       <div class="diff-group" role="group" aria-label="难度">
-        <button type="button" class="diff active" data-diff="beginner">初级</button>
-        <button type="button" class="diff" data-diff="intermediate">中级</button>
-        <button type="button" class="diff" data-diff="expert">高级</button>
+        <button type="button" class="diff" data-diff="beginner">
+          <span class="diff-name">初级</span>
+          <span class="diff-meta">9×9 · 15雷</span>
+        </button>
+        <button type="button" class="diff active" data-diff="intermediate">
+          <span class="diff-name">中级</span>
+          <span class="diff-meta">16×16 · 55雷</span>
+        </button>
+        <button type="button" class="diff" data-diff="expert">
+          <span class="diff-name">高级</span>
+          <span class="diff-meta">30×16 · 120雷</span>
+        </button>
       </div>
     </div>
 
     <div class="hud">
-      <div class="counter" id="mine-count" title="剩余雷数">010</div>
+      <div class="counter" id="mine-count" title="剩余雷数">055</div>
       <button type="button" class="face" id="face" aria-label="重新开始" title="重新开始">🙂</button>
       <div class="counter" id="timer" title="用时">000</div>
     </div>
@@ -32,7 +41,7 @@
       <div class="board" id="board" role="grid" aria-label="雷区"></div>
     </div>
 
-    <p class="hint">左键揭开 · 右键插旗 · 触屏长按插旗</p>
+    <p class="hint">左键揭开 · 右键插旗 · 点已揭开数字可快速展开 · 触屏长按插旗</p>
     <p class="status" id="status" aria-live="polite"></p>
   </div>
   <script src="./game.js"></script>

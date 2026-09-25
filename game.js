@@ -1,8 +1,8 @@
 (() => {
   const DIFFS = {
-    beginner: { cols: 9, rows: 9, mines: 10, label: "初级" },
-    intermediate: { cols: 16, rows: 16, mines: 40, label: "中级" },
-    expert: { cols: 30, rows: 16, mines: 99, label: "高级" },
+    beginner: { cols: 9, rows: 9, mines: 15, label: "初级" },
+    intermediate: { cols: 16, rows: 16, mines: 55, label: "中级" },
+    expert: { cols: 30, rows: 16, mines: 120, label: "高级" },
   };
 
   const boardEl = document.getElementById("board");
@@ -12,10 +12,10 @@
   const statusEl = document.getElementById("status");
   const diffButtons = [...document.querySelectorAll(".diff")];
 
-  let diffKey = "beginner";
-  let cols = 9;
-  let rows = 9;
-  let mineTotal = 10;
+  let diffKey = "intermediate";
+  let cols = 16;
+  let rows = 16;
+  let mineTotal = 55;
   /** @type {{ mine:boolean, open:boolean, flag:boolean, n:number }[]} */
   let cells = [];
   let started = false;
@@ -74,18 +74,18 @@
   }
 
   function cellSizeFor() {
-    const maxW = Math.min(window.innerWidth - 48, 900);
-    const size = Math.floor((maxW - 20) / cols) - 2;
-    return Math.max(18, Math.min(36, size));
+    const maxW = Math.min(window.innerWidth - 48, 960);
+    const size = Math.floor((maxW - 24) / cols) - 2;
+    return Math.max(16, Math.min(34, size));
   }
 
   function placeMines(safeX, safeY) {
+    // Only the first clicked cell is guaranteed safe (harder than clearing a 3x3).
     const forbidden = new Set([idx(safeX, safeY)]);
-    for (const [nx, ny] of neighbors(safeX, safeY)) {
-      forbidden.add(idx(nx, ny));
-    }
     let placed = 0;
-    while (placed < mineTotal) {
+    let guard = 0;
+    while (placed < mineTotal && guard < 100000) {
+      guard += 1;
       const i = (Math.random() * cols * rows) | 0;
       if (forbidden.has(i) || cells[i].mine) continue;
       cells[i].mine = true;
@@ -219,9 +219,6 @@
   }
 
   function toggleFlag(x, y) {
-    if (over || !started && false) {
-      /* allow flag before start */
-    }
     if (over) return;
     const i = idx(x, y);
     const c = cells[i];
@@ -255,6 +252,11 @@
         longPressed = false;
         return;
       }
+      const c = cells[idx(x, y)];
+      if (c.open) {
+        chord(x, y);
+        return;
+      }
       openAt(x, y);
     });
     el.addEventListener("contextmenu", (e) => {
@@ -277,7 +279,7 @@
       if (!over) setFace(won ? "😎" : "🙂");
     });
 
-    el.addEventListener("touchstart", (e) => {
+    el.addEventListener("touchstart", () => {
       longPressed = false;
       pressTimer = setTimeout(() => {
         longPressed = true;
