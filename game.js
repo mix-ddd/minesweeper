@@ -356,5 +356,7 @@
     boardEl.style.gridTemplateColumns = `repeat(${cols}, ${size}px)`;
   });
 
+  document.addEventListener("selectstart", (e) => e.preventDefault());
+
   reset();
 })();

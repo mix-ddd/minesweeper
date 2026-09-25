@@ -19,7 +19,14 @@
   --mono: "SF Mono", "Cascadia Code", "Consolas", ui-monospace, monospace;
 }
 
-* { box-sizing: border-box; }
+*, *::before, *::after {
+  box-sizing: border-box;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+}
 
 html, body {
   margin: 0;
@@ -30,8 +37,12 @@ html, body {
   color: var(--text);
   font-family: var(--font);
   -webkit-tap-highlight-color: transparent;
+  -webkit-user-select: none;
   user-select: none;
 }
+
+::selection { background: transparent; }
+::-moz-selection { background: transparent; }
 
 .app {
   max-width: 960px;
